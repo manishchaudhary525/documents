@@ -1,0 +1,602 @@
+ <!DOCTYPE html>
+
+<html lang="hi">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>3D Defence Doc Dashboard</title>
+
+  <style>
+
+    body { margin: 0; padding: 0; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; background: linear-gradient(135deg,#dbe6e4 0%,#fff 100%); min-height: 100vh;}
+
+    * { box-sizing: border-box; }
+
+
+
+    /* Loader Styles */
+
+    .loader-overlay {
+
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
+      background: rgba(255,255,255,0.95); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+
+    }
+
+    .lds-roller {
+
+      display: inline-block; position: relative; width: 84px; height: 84px;
+
+    }
+
+    .lds-roller div {
+
+      animation: lds-roller 1.2s cubic-bezier(0.5,0,0.5,1) infinite;
+
+      transform-origin: 40px 40px;
+
+      position: absolute;
+
+    }
+
+    .lds-roller div:after {
+
+      content: " "; display: block; position: absolute; width: 11px; height: 11px;
+
+      border-radius: 50%; background: #df1747; margin: -6px 0 0 -6px;
+
+      box-shadow: 0 2px 10px #e94e77b1;
+
+    }
+
+    .lds-roller div:nth-child(1) { animation-delay: -0.036s; top:67px; left:62px;}
+
+    .lds-roller div:nth-child(2) { animation-delay: -0.072s; top:72px; left:52px;}
+
+    .lds-roller div:nth-child(3) { animation-delay: -0.108s; top:74px; left:40px;}
+
+    .lds-roller div:nth-child(4) { animation-delay: -0.144s; top:72px; left:27px;}
+
+    .lds-roller div:nth-child(5) { animation-delay: -0.18s; top:67px; left:17px;}
+
+    .lds-roller div:nth-child(6) { animation-delay: -0.216s; top:40px; left:12px;}
+
+    .lds-roller div:nth-child(7) { animation-delay: -0.252s; top:14px; left:17px;}
+
+    .lds-roller div:nth-child(8) { animation-delay: -0.288s; top:9px; left:27px;}
+
+    @keyframes lds-roller {
+
+      0% { transform: rotate(0deg);}
+
+      100% { transform: rotate(360deg);}
+
+    }
+
+    .scan-text {
+
+      margin-top: 18px;
+
+      font-size: 1.38rem; color: #e92038;
+
+      letter-spacing: 1.2px;
+
+      font-weight: 700;
+
+      animation: fadeText 0.7s infinite alternate;
+
+    }
+
+    @keyframes fadeText {
+
+      from { opacity: 0.35; }
+
+      to { opacity: 1; }
+
+    }
+
+
+
+    /* Header for top images */
+
+    .header { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px 8px 26px;}
+
+    .header img {
+
+      width: 54px; height: 54px; object-fit: cover; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.14);
+
+      border: 2px solid #eee; background: #fff; transition: transform 0.2s;
+
+    }
+
+    .header img:hover { transform: scale(1.08) rotate(-6deg);}
+
+    .desc {
+
+      margin: 16px auto 10px auto; width: 85%; background: #fafafa;
+
+      box-shadow: 0 2px 10px rgba(140, 140, 180, 0.08); border-radius: 14px; padding: 22px;
+
+      font-size: 1.18rem; color: #414053; text-align: center;
+
+      font-weight: 500; border: 1px solid #e0e0e0;
+
+    }
+
+    /* Card Grid */
+
+    .grid-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 86%; margin: 0 auto 0 auto; margin-bottom: 22px; }
+
+    .pdf-box {
+
+      background: linear-gradient(120deg,#fcfbf6 45%, #ebeafd 100%);
+
+      border-radius: 18px; box-shadow: 0 7px 15px rgba(31,37,56,0.15);
+
+      padding: 13px 12px 24px 12px;
+
+      text-align: center; cursor: pointer;
+
+      font-size: 1.03rem; color: #18467a; font-weight: 600;
+
+      position: relative; border: 2px solid #d7e5ff;
+
+      transition: box-shadow .2s, transform .11s, border .15s;
+
+      display: flex; flex-direction: column; gap: 7px; align-items: center;
+
+    }
+
+    .pdf-box img {
+
+      margin-bottom: 4px;
+
+      width: 38px; height: 38px;
+
+      border-radius: 8px; object-fit: contain;
+
+      box-shadow: 0 2px 6px #b7b1ed7a;
+
+      border: 1px solid #e2dae7;
+
+      background: #fff;
+
+      transition: transform 0.14s;
+
+    }
+
+    .pdf-box:hover { box-shadow: 0 18px 32px rgba(65,62,160,0.18); border:2px solid #f96488; transform:translateY(-7px) scale(1.045); color:#d30240;}
+
+    .pdf-box:hover img { transform: rotate(8deg) scale(1.1); }
+
+    /* Password Popup */
+
+    .popup-overlay {
+
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000;
+
+      background: rgba(69,74,130,0.23); display: flex; justify-content: center; align-items: center;
+
+    }
+
+    .popup-box {
+
+      background: #fff; padding: 32px 22px 22px 22px; border-radius: 17px; box-shadow: 0 10px 32px rgba(38,15,44,0.13);
+
+      width: 320px; display: flex; flex-direction: column; align-items: center;
+
+      position: relative;
+
+    }
+
+    .popup-box label { font-size: 1.05rem; font-weight: 500; margin-bottom: 12px;}
+
+    .popup-box input[type="password"] {
+
+      padding: 9px 12px; border-radius: 7px; border: 1.7px solid #e0e0e0; font-size: 1.08rem; outline: none; width: 98%;
+
+      transition: border 0.14s;
+
+      margin-bottom: 12px;
+
+    }
+
+    .popup-box input[type="password"]:focus { border: 1.7px solid #df1747;}
+
+    .popup-box button {
+
+      padding: 6px 20px; border-radius: 6px; font-size: 1.13rem; color: #fff; background: #e52a5a; border: none;
+
+      font-weight: 600; margin-top: 9px; cursor: pointer; box-shadow: 0 2px 7px #e481b455;
+
+      transition: background 0.11s;
+
+    }
+
+    .popup-box button:hover { background: #b00f20;}
+
+    .popup-close {
+
+      position: absolute; top: 9px; right: 15px; font-size: 1.6rem; cursor: pointer; color: #e35252; font-weight: bold;
+
+      transition: color 0.13s;
+
+    }
+
+    .popup-close:hover { color: #b90000;}
+
+    .error-msg {
+
+      color: #e11242;
+
+      background: #fee7ec;
+
+      padding: 7px 12px;
+
+      border-radius: 7px;
+
+      font-size: 0.99rem;
+
+      font-weight: 500;
+
+      margin-top: 8px;
+
+      margin-bottom: 2px;
+
+      display: none;
+
+      animation: fadePop 2s linear;
+
+    }
+
+    @keyframes fadePop {
+
+      0% { opacity: 0;}
+
+      25% {opacity: 1;}
+
+      80% {opacity: 1;}
+
+      100%{opacity: 0;}
+
+    }
+
+
+
+    /* Red text outline area under card */
+
+    .red-section {
+
+      text-align: center;
+
+      font-size: 1.25rem;
+
+      font-weight: bold;
+
+      margin: 32px 0 0 0;
+
+      color: #d80418;
+
+      letter-spacing: 1.2px;
+
+      text-shadow: 1px 2px 7px #d6878760;
+
+      line-height: 1.39;
+
+    }
+
+    .section-img {
+
+      margin-top: 8px;
+
+      width: 38px;
+
+      height: 38px;
+
+      object-fit: contain;
+
+      filter: drop-shadow(0 3px 9px #e18089ab);
+
+      border-radius: 9px;
+
+    }
+
+    @media (max-width: 700px) {
+
+      .header img { width:33px; height:33px; }
+
+      .desc, .grid-boxes { width: 97%; }
+
+      .pdf-box { font-size: 0.98rem;}
+
+      .red-section { font-size: .99rem;}
+
+      .popup-box { width:95%;}
+
+      .section-img { width: 25px; height: 25px;}
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Loader -->
+
+  <div class="loader-overlay" id="loaderOverlay">
+
+    <div class="lds-roller">
+
+      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+
+    </div>
+
+    <div class="scan-text" id="scanText">Document Scanning…</div>
+
+  </div>
+
+
+
+  <div style="display:none;" id="mainContent">
+
+    <div class="header">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Ministry_of_Defence_India.png" alt="left-logo" />
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Flag_of_India.png" alt="right-logo" />
+
+    </div>
+
+    <div class="desc">
+
+      भारतीय सेना/रक्षा मंत्रालय के दस्तावेज़ डाउनलोड करने के लिए नीचे दिए गए बॉक्सों में क्लिक करें—हर फाइल आपके डिवाइस में तुरंत डाउनलोड हो जाएगी। सभी लेटर, सर्टिफिकेट और आदेश सुरक्षित हैं।
+
+    </div>
+
+
+
+    <div class="grid-boxes" id="docGrid">
+
+      <!-- Cards generated by JS -->
+
+    </div>
+
+
+
+    <div class="red-section">
+
+      Ministry of home, defence government of India
+
+      <br>
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Emblem_of_India.png" class="section-img" alt="emblem" />
+
+    </div>
+
+  </div>
+
+  <!-- Password Popup -->
+
+  <div id="popupOverlay" class="popup-overlay" style="display:none;">
+
+    <div class="popup-box" id="passwordPopup">
+
+      <span class="popup-close" id="popupClose">&times;</span>
+
+      <label for="docPassword">Enter your document password</label>
+
+      <input type="password" id="docPassword" autocomplete="off" placeholder="**********" />
+
+      <button type="button" id="popupSubmit">Unlock &amp; Download</button>
+
+      <div id="errorMsg" class="error-msg"></div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // Loader + scan animation
+
+    setTimeout(()=>{
+
+      document.getElementById('loaderOverlay').style.display='none';
+
+      document.getElementById('mainContent').style.display='block';
+
+    }, 3000);
+
+
+
+    // CARD DATA: PDF, title, card image
+
+    const pdfCards = [
+
+      {title:"Posting/Transfer Order", pdf:"pdfs/posting_transfer_order.pdf", img:"https://cdn-icons-png.flaticon.com/512/1850/1850056.png"},
+
+      {title:"Commanding officer permission letter", pdf:"pdfs/commanding_officer_permission_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/2990/2990556.png"},
+
+      {title:"Promotion/Confirmation Letter", pdf:"pdfs/promotion_confirmation_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/4678/4678646.png"},
+
+      {title:"Service Book Entry Letter", pdf:"pdfs/service_book_entry_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/2058/2058920.png"},
+
+      {title:"ID Printing letter", pdf:"pdfs/id_printing_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/3917/3917695.png"},
+
+      {title:"Medical Certificate", pdf:"pdfs/medical_certificate.pdf", img:"https://cdn-icons-png.flaticon.com/512/257/257609.png"},
+
+      {title:"Leave Sanction Letter", pdf:"pdfs/leave_sanction_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/1609/1609874.png"},
+
+      {title:"CSD Smart card printing letter", pdf:"pdfs/csd_smart_card_printing_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/2741/2741080.png"},
+
+      {title:"Appreciation / Commendation Letter", pdf:"pdfs/appreciation_commendation_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/3095/3095583.png"},
+
+    ];
+
+
+
+    // Render Cards
+
+    let gridHtml = "";
+
+    pdfCards.forEach((c, i)=>{
+
+      gridHtml += `<div class="pdf-box" data-index="${i}">
+
+        <img src="${c.img}" alt="doc-pic"/>
+
+        <span>${c.title}</span>
+
+      </div>`;
+
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      document.getElementById("docGrid").innerHTML = gridHtml;
+
+    });
+
+
+
+    // Password Popup/Unlock logic
+
+    let currentDownloadIdx = null;
+
+    const VALID_PASSWORD = "IAFSS80129D";
+
+
+
+    document.body.addEventListener('click', function(e){
+
+      // Hide popup if click outside
+
+      if(e.target.id === "popupOverlay"){ document.getElementById('popupOverlay').style.display="none"; }
+
+    });
+
+    document.getElementById("popupClose").onclick = function() {
+
+      document.getElementById('popupOverlay').style.display="none";
+
+    };
+
+
+
+    document.getElementById("docGrid").addEventListener('click',function(e){
+
+      let box = e.target.closest('.pdf-box');
+
+      if(!box) return;
+
+      currentDownloadIdx = box.getAttribute('data-index');
+
+      document.getElementById("popupOverlay").style.display="flex";
+
+      document.getElementById("docPassword").value = '';
+
+      document.getElementById("docPassword").focus();
+
+      document.getElementById("errorMsg").style.display="none";
+
+    });
+
+
+
+    // Password unlock
+
+    document.getElementById("popupSubmit").onclick = function() {
+
+      let input = document.getElementById("docPassword").value;
+
+      if(input === VALID_PASSWORD){
+
+        document.getElementById("errorMsg").style.display='none';
+
+        // show mini-loader inside popup
+
+        let oldHtml = document.getElementById("passwordPopup").innerHTML;
+
+        document.getElementById("passwordPopup").innerHTML = `
+
+          <div style="margin-top:8px;margin-bottom:18px;display:flex;justify-content:center;">
+
+            <div class="lds-roller" style="transform:scale(0.72);"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+          </div>
+
+          <div style="text-align:center; color:#e11242; margin-bottom:10px;font-size:1.11rem;">Downloading…</div>
+
+        `;
+
+        setTimeout(()=>{
+
+          let file = pdfCards[currentDownloadIdx];
+
+          let link = document.createElement('a');
+
+          link.href = file.pdf;
+
+          link.download = "";
+
+          document.body.appendChild(link);
+
+          link.click();
+
+          link.remove();
+
+          document.getElementById('popupOverlay').style.display="none";
+
+          document.getElementById("passwordPopup").innerHTML = oldHtml;
+
+        }, 3000);
+
+      } else {
+
+        let err = document.getElementById("errorMsg");
+
+        err.textContent = "Invalid password! Please try again.";
+
+        err.style.display = "block";
+
+        setTimeout(()=>{ err.style.display="none"; }, 2000);
+
+      }
+
+    };
+
+
+
+    // Enter press on popup
+
+    document.getElementById("docPassword").addEventListener("keydown", function(e){
+
+      if(e.key === "Enter")
+
+        document.getElementById("popupSubmit").click();
+
+    });
+
+
+
+    // Hide popup if pressing Escape
+
+    document.addEventListener("keydown", function(e){
+
+      if(e.key === "Escape") document.getElementById('popupOverlay').style.display="none";
+
+    });
+
+  </script>
+
+</body>
+
+</html>
+
