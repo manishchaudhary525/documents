@@ -30,7 +30,7 @@
 
     .lds-roller {
 
-      display: inline-block; position: relative; width: 84px; height: 84px;
+      display: inline-block; position: relative; width: 100px; height: 84px;
 
     }
 
@@ -38,7 +38,7 @@
 
       animation: lds-roller 1.2s cubic-bezier(0.5,0,0.5,1) infinite;
 
-      transform-origin: 40px 40px;
+      transform-origin: 10px 10px;
 
       position: absolute;
 
@@ -48,9 +48,9 @@
 
       content: " "; display: block; position: absolute; width: 11px; height: 11px;
 
-      border-radius: 50%; background: #df1747; margin: -6px 0 0 -6px;
+      border-radius: 80%; background: #df1747; margin: -6px 0 0 -6px;
 
-      box-shadow: 0 2px 10px #e94e77b1;
+      box-shadow: 0 2px 10px #FFFFF;
 
     }
 
@@ -108,7 +108,7 @@
 
     .header img {
 
-      width: 54px; height: 54px; object-fit: cover; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.14);
+      width: 200px; height: 100px; object-fit: cover; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.14);
 
       border: 2px solid #eee; background: #fff; transition: transform 0.2s;
 
@@ -274,13 +274,13 @@
 
       text-align: center;
 
-      font-size: 1.25rem;
+      font-size: -10rem;
 
-      font-weight: bold;
+      font-weight: ;
 
       margin: 32px 0 0 0;
 
-      color: #d80418;
+      color: #000000;
 
       letter-spacing: 1.2px;
 
@@ -348,15 +348,24 @@
 
     <div class="header">
 
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Ministry_of_Defence_India.png" alt="left-logo" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Flag_of_Indian_Army.svg/2560px-Flag_of_Indian_Army.svg.png" alt="left-logo" />
 
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Flag_of_India.png" alt="right-logo" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Ministry_of_Defence_India.svg" alt="right-logo" />
 
     </div>
 
     <div class="desc">
 
-      भारतीय सेना/रक्षा मंत्रालय के दस्तावेज़ डाउनलोड करने के लिए नीचे दिए गए बॉक्सों में क्लिक करें—हर फाइल आपके डिवाइस में तुरंत डाउनलोड हो जाएगी। सभी लेटर, सर्टिफिकेट और आदेश सुरक्षित हैं।
+<u><p style="color: darkred;"><strong>OFFICIAL NOTICE</strong></p></u> Indian Army / Ministry of Defence Document Section
+
+This section belongs to the Indian Armed Forces and contains official documents related to the Indian Army and the Ministry of Defence. All files available here are confidential and sensitive in nature. By clicking on the boxes below, the files will be downloaded instantly to your device; however, every file is password-protected. No file can be downloaded without a valid password. The password will be the authorized officer’s Service Token Number, which will unlock the file. This password is strictly for the personal use of the concerned officer and must not be shared or disclosed to anyone else.
+
+This section is strictly for authorized officers and defence personnel only. No civilian is allowed to open, access, or attempt to download these files. All documents in this section are classified and meant solely for official use. Any attempt to download, open, or share these files without authorization is considered a serious legal offence. Unauthorized access or downloading of files may lead to legal prosecution under the Indian Penal Code (IPC) and Defence Acts, which may include imprisonment of up to five years.
+
+The files available in this section contain sensitive information related to national security. Unauthorized access or misuse of these files can pose a serious threat to the nation’s security. Therefore, all officers are advised to keep their Service Token Numbers confidential and not allow any unauthorized individual to use them. If any suspicious activity or unauthorized download is noticed, it must be immediately reported to the concerned senior officer or security department.
+
+This section is secured exclusively for authorized users. Please strictly adhere to all security protocols and confidentiality policies, and refrain from any kind of unauthorized a
+
 
     </div>
 
@@ -371,12 +380,9 @@
 
 
     <div class="red-section">
-
-      Ministry of home, defence government of India
-
-      <br>
-
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Emblem_of_India.png" class="section-img" alt="emblem" />
+<img src="https://www.nicepng.com/png/full/933-9333810_ashok-stambh-logo-hd.png" class="section-img" alt="emblem" />
+<br>
+      <strong>Indian Armed Forces</strong><br>Ministry of Defence (MoD)<br> Government of India
 
     </div>
 
@@ -390,9 +396,9 @@
 
       <span class="popup-close" id="popupClose">&times;</span>
 
-      <label for="docPassword">Enter your document password</label>
+      <label for="docPassword">Enter Your Password</label>
 
-      <input type="password" id="docPassword" autocomplete="off" placeholder="**********" />
+      <input type="password" id="docPassword" autocomplete="off" placeholder="" />
 
       <button type="button" id="popupSubmit">Unlock &amp; Download</button>
 
@@ -420,23 +426,23 @@
 
     const pdfCards = [
 
-      {title:"Posting/Transfer Order", pdf:"pdfs/posting_transfer_order.pdf", img:"https://cdn-icons-png.flaticon.com/512/1850/1850056.png"},
+      {title:"Posting/Transfer Order", pdf:"pdfs/posting_transfer_order.pdf", img:"https://www.nicepng.com/png/full/933-9333810_ashok-stambh-logo-hd.png"},
 
-      {title:"Commanding officer permission letter", pdf:"pdfs/commanding_officer_permission_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/2990/2990556.png"},
+      {title:"Commanding officer permission letter", pdf:"pdfs/commanding_officer_permission_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"Promotion/Confirmation Letter", pdf:"pdfs/promotion_confirmation_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/4678/4678646.png"},
+      {title:"Promotion/Confirmation Letter", pdf:"pdfs/promotion_confirmation_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"Service Book Entry Letter", pdf:"pdfs/service_book_entry_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/2058/2058920.png"},
+      {title:"Service Book Entry Letter", pdf:"pdfs/service_book_entry_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"ID Printing letter", pdf:"pdfs/id_printing_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/3917/3917695.png"},
+      {title:"ID Printing letter", pdf:"pdfs/id_printing_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"Medical Certificate", pdf:"pdfs/medical_certificate.pdf", img:"https://cdn-icons-png.flaticon.com/512/257/257609.png"},
+      {title:"Medical Certificate", pdf:"pdfs/medical_certificate.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"Leave Sanction Letter", pdf:"pdfs/leave_sanction_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/1609/1609874.png"},
+      {title:"Leave Sanction Letter", pdf:"pdfs/leave_sanction_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"CSD Smart card printing letter", pdf:"pdfs/csd_smart_card_printing_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/2741/2741080.png"},
+      {title:"CSD Smart card printing letter", pdf:"pdfs/csd_smart_card_printing_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
-      {title:"Appreciation / Commendation Letter", pdf:"pdfs/appreciation_commendation_letter.pdf", img:"https://cdn-icons-png.flaticon.com/512/3095/3095583.png"},
+      {title:"Appreciation / Commendation Letter", pdf:"pdfs/appreciation_commendation_letter.pdf", img:"https://mod.gov.in/sites/default/files/emblem-dark_2.png"},
 
     ];
 
@@ -470,7 +476,7 @@
 
     let currentDownloadIdx = null;
 
-    const VALID_PASSWORD = "IAFSS80129D";
+    const VALID_PASSWORD = "CMC8755";
 
 
 
@@ -599,4 +605,3 @@
 </body>
 
 </html>
-
